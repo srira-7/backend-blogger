@@ -26,7 +26,7 @@ public class UserDTO {
     private String password;
     private String matchingPassword;
 
-    @ValidEmail
+    @ValidEmail(message = "Not a valid email")
     @NotNull
     @NotEmpty
     private String emailID;

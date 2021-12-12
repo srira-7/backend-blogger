@@ -18,6 +18,10 @@ public class Roles {
         this.name = name;
     }
 
+    public Roles(String name) {
+        this.name = name;
+    }
+
     public Integer getId() {
         return id;
     }

@@ -17,6 +17,11 @@ public class UserDTOServiceImpl implements UserDTOService{
         this.passwordEncoder = passwordEncoder;
     }
 
+    @Override
+    public Users getUsers(String username) {
+        return userRepo.findByUsername(username);
+    }
+
     public Users registerUser(UserDTO userDTO){
         if(emailExists(userDTO.getEmailID()) && usernameExists(userDTO.getUsername())){
             throw new RuntimeException("User already exists!");

@@ -21,9 +21,11 @@ public class Users {
     @ManyToMany(fetch = FetchType.EAGER)
     private Collection<Roles> roles = new ArrayList<>();
 
-    @OneToMany(mappedBy = "users", cascade = CascadeType.ALL)
-    private Collection<Blog> blogs = new ArrayList<>();
-
+    /*    @OneToMany
+        private Collection<BlogMeta> blogMetas = new ArrayList<>();
+        @OneToMany(mappedBy = "users", cascade = CascadeType.ALL)
+        private Collection<BlogMeta> blogMetas = new ArrayList<>();
+    */
     public Users(){}
 
     public Users(Integer id,
@@ -32,8 +34,7 @@ public class Users {
                  String lastName,
                  String password,
                  String emailID,
-                 Collection<Roles> roles,
-                 Collection<Blog> blogs) {
+                 Collection<Roles> roles) {
         this.id = id;
         this.username = username;
         this.firstName = firstName;
@@ -41,7 +42,7 @@ public class Users {
         this.password = password;
         this.emailID = emailID;
         this.roles = roles;
-        this.blogs = blogs;
+    //    this.blogMetas = blogs;
     }
     public Users(String username,
                  String firstName,
@@ -112,11 +113,12 @@ public class Users {
         this.roles = roles;
     }
 
-    public Collection<Blog> getBlogs() {
-        return blogs;
+ /*   public Collection<BlogMeta> getBlogMetas() {
+        return blogMetas;
     }
 
-    public void setBlogs(Collection<Blog> blogs) {
-        this.blogs = blogs;
+    public void setBlogMetas(Collection<BlogMeta> blogMetas) {
+        this.blogMetas = blogMetas;
     }
+  */
 }

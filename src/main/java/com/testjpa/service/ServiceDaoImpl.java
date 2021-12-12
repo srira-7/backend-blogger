@@ -1,9 +1,9 @@
 package com.testjpa.service;
 
-import com.testjpa.repo.BlogRepo;
+import com.testjpa.entity.BlogMeta;
+import com.testjpa.repo.BlogMetaRepo;
 import com.testjpa.repo.RolesRepo;
 import com.testjpa.repo.UserRepo;
-import com.testjpa.entity.Blog;
 import com.testjpa.entity.Roles;
 import com.testjpa.entity.Users;
 import lombok.extern.slf4j.Slf4j;
@@ -20,32 +20,44 @@ import java.util.List;
 @Slf4j
 public class ServiceDaoImpl implements ServiceDao, UserDetailsService {
     UserRepo userRepo;
-    BlogRepo blogRepo;
+    BlogMetaRepo blogMetaRepo;
     RolesRepo rolesRepo;
 
-    public ServiceDaoImpl(UserRepo userRepo, BlogRepo blogRepo, RolesRepo rolesRepo) {
+    public ServiceDaoImpl(UserRepo userRepo, BlogMetaRepo blogMetaRepo, RolesRepo rolesRepo) {
         this.userRepo = userRepo;
-        this.blogRepo = blogRepo;
+        this.blogMetaRepo = blogMetaRepo;
         this.rolesRepo = rolesRepo;
     }
 
+/*    //for unit testing without using blogRepo as blog isn't implemented yet
+    public ServiceDaoImpl(UserRepo userRepo, RolesRepo rolesRepo) {
+        this.userRepo = userRepo;
+        this.rolesRepo = rolesRepo;
+    }*/
 /*
     public Users saveUser(Users user){
         return userRepo.save(user);
     }
 */
 
-    public Blog saveBlog(Blog blog){
-        return blogRepo.save(blog);
+    public BlogMeta saveBlog(BlogMeta blogMeta){
+
+        return blogMetaRepo.save(blogMeta);
     }
 
-    @Override
-    public List<Users> getUsers() {
-        return userRepo.findAll();
-    }
+   /* @Override
+    public BlogDTO savePost() {
+        return ;
+    }*/
 
     @Override
     public Roles saveRole(Roles role) {
+
+        String roleName = role.getName();
+        if (rolesRepo.findByName(roleName) == role) {
+            throw new RuntimeException("Role already exists!");
+        }
+
         return rolesRepo.save(role);
     }
 
@@ -54,6 +66,11 @@ public class ServiceDaoImpl implements ServiceDao, UserDetailsService {
         Users users = userRepo.findByUsername(username);
         Roles roles = rolesRepo.findByName(roleName);
         users.getRoles().add(roles);
+    }
+
+    @Override
+    public List<BlogMeta> getAllBlogs() {
+        return blogMetaRepo.findAll();
     }
 
     @Override
@@ -66,4 +83,16 @@ public class ServiceDaoImpl implements ServiceDao, UserDetailsService {
         return new CustomUserService(user);
     }
 
+    @Override
+    public List<BlogMeta> getBlogByUser(String username) {
+
+    //    Users users = userRepo.findByUsername(username);
+    //    Integer userId = users.getId();
+        return blogMetaRepo.findBlogByUser(username);
+    }
+
+    @Override
+    public List<BlogMeta> getBlogBySearch(String keyword) {
+        return blogMetaRepo.findBlogBySearch(keyword);
+    }
 }

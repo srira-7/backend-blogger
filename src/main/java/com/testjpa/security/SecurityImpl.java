@@ -15,6 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import static org.springframework.http.HttpMethod.GET;
+import static org.springframework.http.HttpMethod.POST;
 
 @Configuration
 @EnableWebSecurity
@@ -39,7 +40,11 @@ public class SecurityImpl extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests().antMatchers("/api/login/**").permitAll()
                 .and()
-                .authorizeRequests().antMatchers(GET, "/api/user/**").hasRole("USER")
+                .authorizeRequests().antMatchers(GET, "/api/user/**").hasRole("ADMIN")
+                .and()
+                .authorizeRequests().antMatchers(GET, "/api/blog/**").hasRole("ADMIN")
+                .and()
+                .authorizeRequests().antMatchers(POST, "/api/blog/**").hasRole("ADMIN")
                 .and()
          //       .authorizeRequests().anyRequest().authenticated()
          //       .and()
